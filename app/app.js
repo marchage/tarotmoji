@@ -13,7 +13,7 @@ Vue.registerElement('ModalStack', () => ModalStack);
 Vue.use(VueWindowedModal);
 // Vue.use(VueDevtools);
 // Uncommment the following to see NativeScript-Vue output logs
-Vue.config.silent = true;
+Vue.config.silent = false;
 
 
 new Vue({

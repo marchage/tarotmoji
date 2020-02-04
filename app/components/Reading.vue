@@ -69,7 +69,6 @@ export default {
     getCard(context) {
       // rotate cards based on date (+ number of views per day?), not just checking if it is time for a random change
       if (this.currentDiffDays(this.timestamp) >= 1) {
-        console.log('MARKWARK', this.currentDiffDays(this.timestamp), this.timestamp);
         this.$store.dispatch("Readings/set", {
           timestamp: this.currentTimestamp(),
           pastPresFut: [this.getCardInstance(), this.getCardInstance(), this.getCardInstance()]
