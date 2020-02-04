@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        "**/platforms": true
+    },
+    "files.autoSaveDelay": 2000
+}
