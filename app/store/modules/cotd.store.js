@@ -1,29 +1,56 @@
-import Card, { initialState as initS } from '../../classes/card';
+import * as ApplicationSettings from "tns-core-modules/application-settings";
+import { initialState as initS } from '../../classes/card';
 
 
 const initialState = () => ({ timestamp: '', ...initS });
 
 // State object
 const state = initialState();
-const cTpl = new Card(state, 'Cotd');
 
 // Getter functions
-const getters = {
-    getTimestamp(state) {
-        return state.timestamp;
-    },
-    ...cTpl.getters
-};
+const getters = {};
 
 // Actions 
-const actions = cTpl.actions;
+const actions = {
+    reset({ state, commit }) {
+        commit('RESET');
+        ApplicationSettings.setString('Cotd', JSON.stringify(state));
+    },
+    set({ state, commit }, data) {
+        // we can pass the vue object itself on which all this is defined
+        Object.keys(state).forEach((d, i, a) => {
+            const mutation = 'SET_' + d.toUpperCase();
+            const supposedType = typeof state[d];
+            const isArray = Array.isArray(state[d]);
+            if (supposedType === typeof data[d] && isArray === Array.isArray(data[d])) {
+                commit(mutation, data[d]);
+            }
+        });
+        ApplicationSettings.setString('Cotd', JSON.stringify(state));
+    },
+    load({ state, dispatch }) {
+        let stored = ApplicationSettings.getString('Cotd');
+        if (stored) {
+            stored = JSON.parse(stored);
+        }
+        if (stored) {
+            dispatch('set', Object.assign({}, state, stored));
+        }
+    }
+};
 
 // Mutations
 const mutations = {
-    SET_TIMESTAMP(state, payload) {
-        state.timestamp = payload;
+    RESET(state) {
+        const newState = initialState();
+        Object.keys(newState).forEach(key => {
+            state[key] = newState[key]
+        });
     },
-    ...cTpl.mutations
+    ...Object.keys(initialState()).reduce((s, d, i, a) => {
+        let funcName = 'SET_' + d.toUpperCase();
+        return { ...s, [funcName]: (state, payload) => { state[d] = payload; } };
+    }, {})
 };
 
 export default {

@@ -55,20 +55,16 @@ export default {
         selected: tab === this.currentTab
       });
     },
-    // ...mapState(["timestamp", "pastPresFut"]),
     ...mapGetters([
-      "getTimestamp",
-      "getPast",
-      "getPresent",
-      "getFuture",
-      "getPastPresFut",
-      "getCelticCros"
+      "past",
+      "present",
+      "future"
     ])
   },
   methods: {
     getCard(context) {
-      // rotate cards based on date (+ number of views per day?), not just checking if it is time for a random change
-      if (this.currentDiffDays(this.timestamp) >= 1) {
+      // @TODO rotate cards based on date (+ number of views per day?), not just checking if it is time for a random change
+      if (this.currentDiffDays(this.timestamp) >= 1 || !Object.keys(this.present).length) {
         this.$store.dispatch("Readings/set", {
           timestamp: this.currentTimestamp(),
           pastPresFut: [this.getCardInstance(), this.getCardInstance(), this.getCardInstance()]
@@ -76,24 +72,7 @@ export default {
       }
 
       this.currentTab = context;
-
-      switch (context) {
-        case "Past":
-          let card = this.getPast;
-          this.loadCardSetPropsToThis(card.direction, card.id);
-          break;
-        case "Present":
-          card = this.getPresent;
-          this.loadCardSetPropsToThis(card.direction, card.id);
-          break;
-        case "Future":
-          card = this.getFuture;
-          this.loadCardSetPropsToThis(card.direction, card.id);
-          break;
-        default:
-          return this.loadCardSetPropsToThis();
-          break;
-      }
+      this.loadCardSetPropsToThis(this[context.toLowerCase()].direction, this[context.toLowerCase()].id);
     }
   },
   created() {

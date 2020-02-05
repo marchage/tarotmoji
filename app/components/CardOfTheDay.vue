@@ -33,36 +33,10 @@ const { mapState, mapGetters } = createNamespacedHelpers("Cotd");
 
 export default {
   mixins: [Tarot],
-  computed: {
-    // ...mapState([
-    //   "id",
-    //   // "timestamp",
-    //   "major",
-    //   "name",
-    //   "emoji",
-    //   "emoji1",
-    //   "emoji2",
-    //   "meaning",
-    //   "icon",
-    //   "reversed"
-    // ]),
-    ...mapGetters([
-      "getId",
-      "getTimestamp",
-      "getMajor",
-      "getName",
-      "getEmoji",
-      "getEmoji1",
-      "getEmoji2",
-      "getMeaning",
-      "getIcon",
-      "getReversed"
-    ])
-  },
   created() {
-    this.$store.dispatch("Cotd/load");
     // this.$store.dispatch('reset')
-    if (!this.id || this.id === -1) {
+    this.$store.dispatch("Cotd/load");
+    if (this.timestamp && this.currentDiffDays(this.timestamp) >= 1 || !this.id || this.id === -1) {
       this.loadCardSetPropsToThis();
       this.$store.dispatch("Cotd/set", {
         id: this.id,

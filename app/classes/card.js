@@ -13,43 +13,43 @@ export const initialState = () => ({
 });
 
 export default class Card {
-    constructor(state, ns = 'Card') {
+    constructor(initialState, state, ns = 'Card') {
+        this.initialState = initialState;
         this.state = state;
         this.ns = ns;
     }
     get getters() {
-        return Object.entries(initialState).reduce((s, d, i, a) => {
+        return Object.entries(this.state).reduce((s, d, i, a) => {
             const funcName = 'get' + d[0].substr(0, 1).toUpperCase() + d[0].substr(1);
-            return { ...s, [funcName]: () => state[d[0]] };
+            return { ...s, [funcName]: (state) => state[d[0]] };
         }, {});
     }
     get actions() {
         const ns = this.ns
         return {
-            reset({ commit }) {
+            reset({ state, commit }) {
                 commit('RESET');
-                ApplicationSettings.setString(ns, JSON.stringify(this.state));
+                ApplicationSettings.setString(ns, JSON.stringify(state));
             },
-            set({ commit }, data) {
+            set({ state, commit }, data) {
                 // we can pass the vue object itself on which all this is defined
-                Object.keys(initialState).forEach((d, i, a) => {
+                Object.keys(state).forEach((d, i, a) => {
                     const mutation = 'SET_' + d.toUpperCase();
-                    const supposedType = typeof this.state[d];
-                    const isArray = Array.isArray(this.state[d]);
+                    const supposedType = typeof state[d];
+                    const isArray = Array.isArray(state[d]);
                     if (supposedType === typeof data[d] && isArray === Array.isArray(data[d])) {
                         commit(mutation, data[d]);
                     }
                 });
-                console.log('actions.set gaat zetten:', this.state);
-                ApplicationSettings.setString(ns, JSON.stringify(this.state));
+                ApplicationSettings.setString(ns, JSON.stringify(state));
             },
-            load({ dispatch }) {
+            load({ state, dispatch }) {
                 let stored = ApplicationSettings.getString(ns);
                 if (stored) {
                     stored = JSON.parse(stored);
                 }
                 if (stored) {
-                    dispatch('set', Object.assign({}, this.state, stored));
+                    dispatch('set', Object.assign({}, state, stored));
                 }
             }
         };
@@ -57,12 +57,12 @@ export default class Card {
     get mutations() {
         return {
             RESET(state) {
-                const newState = initialState;
+                const newState = this.initialState;
                 Object.keys(newState).forEach(key => {
                     state[key] = newState[key]
                 });
             },
-            ...Object.keys(initialState).reduce((s, d, i, a) => {
+            ...Object.keys(this.initialState).reduce((s, d, i, a) => {
                 let funcName = 'SET_' + d.toUpperCase();
                 return { ...s, [funcName]: (state, payload) => { state[d] = payload; } };
             }, {})

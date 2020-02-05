@@ -13,17 +13,17 @@ export default new Vuex.Store({
     reset({ dispatch }) {
       // resets state of all the modules
       Object.keys(modules).forEach(moduleName => {
-        dispatch(`${moduleName}/reset`, { modulePath: moduleName }); // @TODO modulePath should not be set!!!
+        dispatch(`${moduleName}/reset`); // @TODO modulePath should not be set!!!
       });
     },
     set({ dispatch }, data) {
       Object.keys(modules).forEach(moduleName => {
-        dispatch(`${moduleName}/set`, { modulePath: moduleName, ...data });
+        dispatch(`${moduleName}/set`, { ...data });
       });
     },
-    load({ dispatch }, data) {
+    load({ dispatch }) {
       Object.keys(modules).forEach(moduleName => {
-        dispatch(`${moduleName}/load`, { modulePath: moduleName, ...data });
+        dispatch(`${moduleName}/load`);
       });
     }
   },
