@@ -64,9 +64,10 @@ export default {
   methods: {
     getCard(context) {
       // @TODO rotate cards based on date (+ number of views per day?), not just checking if it is time for a random change
-      if (this.currentDiffDays(this.timestamp) >= 1 || !Object.keys(this.present).length) {
+      // fill all 3 positions if current info is outdated or empty/default.
+      if (this.howManyDaysAgo(this.timestamp) >= 1 || !Object.keys(this.present).length) {
         this.$store.dispatch("Readings/set", {
-          timestamp: this.currentTimestamp(),
+          timestamp: this.todaysDate(),
           pastPresFut: [this.getCardInstance(), this.getCardInstance(), this.getCardInstance()]
         });
       }

@@ -1,7 +1,16 @@
-import * as ApplicationSettings from "tns-core-modules/application-settings";
-import { initialState as initS } from '../../classes/card'
+import * as ApplicationSettings from "@nativescript/core/application-settings";
 
-
+const initS = {
+    id: -1,
+    major: true,
+    name: '',
+    meaning: '',
+    emoji: '',
+    emoji1: '',
+    emoji2: '',
+    icon: 'emoji',
+    reversed: false
+};
 const initialState = () => ({
     timestamp: '',
     pastPresFut: Array(3).fill({ ...initS }),

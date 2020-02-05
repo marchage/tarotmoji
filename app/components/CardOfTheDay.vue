@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { Cards } from "../data/cards";
 import Tarot from "../mixins/tarot";
 import { createNamespacedHelpers } from "../vuex";
 
@@ -36,17 +35,17 @@ export default {
   created() {
     // this.$store.dispatch('reset')
     this.$store.dispatch("Cotd/load");
-    if (this.timestamp && this.currentDiffDays(this.timestamp) >= 1 || !this.id || this.id === -1) {
-      this.loadCardSetPropsToThis();
-      this.$store.dispatch("Cotd/set", {
-        id: this.id,
-        timestamp: this.timestamp,
+    if (this.timestamp && this.howManyDaysAgo(this.timestamp) >= 1 || !this.id || this.id === -1) {
+      this.loadCardSetPropsToThis();  // load 
+      this.$store.dispatch("Cotd/set", { // and save
+        id: this.id, 
+        timestamp: this.timestamp, 
         major: this.major,
         name: this.name,
+        meaning: this.meaning,
         emoji: this.emoji,
         emoji1: this.emoji1,
         emoji2: this.emoji2,
-        meaning: this.meaning,
         icon: this.icon,
         reversed: this.reversed
       });

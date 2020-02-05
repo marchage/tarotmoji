@@ -1,8 +1,11 @@
-import Vue from 'nativescript-vue';
 
 import store from "./store";
+// import VueDevtools from 'nativescript-vue-devtools';
+import Vue from 'nativescript-vue';
+
+
 // https://stackoverflow.com/a/58753786
-// import VueDevtools from 'nativescript-vue-devtools'
+// 
 
 import Home from './components/Home';
 

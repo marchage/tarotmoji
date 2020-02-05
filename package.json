@@ -16,7 +16,6 @@
         "@nativescript/core": "6.3.1",
         "@nativescript/theme": "2.2.1",
         "@progress-nativechat/nativescript-nativechat": "3.0.0",
-        "@vue/devtools": "^5.3.3",
         "kinvey-nativescript-sdk": "4.2.5",
         "nativescript-accelerometer": "3.0.0",
         "nativescript-background-http": "4.2.1",
@@ -44,6 +43,7 @@
     "devDependencies": {
         "@babel/core": "7.7.5",
         "@babel/preset-env": "^7.0.0",
+        "@vue/devtools": "^5.3.3",
         "babel-loader": "^8.0.2",
         "babel-traverse": "6.26.0",
         "babel-types": "6.26.0",
@@ -59,11 +59,11 @@
         "nativescript-worker-loader": "~0.9.0",
         "node-sass": "^4.9.2",
         "sass-loader": "^7.1.0",
+        "tns-platform-declarations": "6.3.1",
         "uglifyjs-webpack-plugin": "~1.2.7",
         "vue-loader": "^15.2.6",
         "webpack": "^4.16.4",
         "webpack-bundle-analyzer": "~2.13.1",
-        "webpack-cli": "^3.1.0",
-        "tns-platform-declarations": "6.3.1"
+        "webpack-cli": "^3.1.0"
     }
 }
