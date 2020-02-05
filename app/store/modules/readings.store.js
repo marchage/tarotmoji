@@ -9,12 +9,12 @@ const initS = {
     emoji1: '',
     emoji2: '',
     icon: 'emoji',
-    reversed: false
+    reversed: 0
 };
 const initialState = () => ({
     timestamp: '',
     pastPresFut: Array(3).fill({ ...initS }),
-    celticCross: Array(10).fill({ ...initS }) // @TODO
+    // @TODO celticCross: Array(10).fill({ ...initS })
 });
 
 // State object
@@ -57,7 +57,7 @@ const actions = {
             stored = JSON.parse(stored);
         }
         if (stored) {
-            dispatch('set', Object.assign({}, state, stored));
+            dispatch('set', { ...state, ...stored});
         }
     }
 };

@@ -27,6 +27,8 @@
 <script>
 import Tarot from "../mixins/tarot";
 import { createNamespacedHelpers } from "../vuex";
+import dayjs from '../dayjs';
+
 
 const { mapState, mapGetters } = createNamespacedHelpers("Cotd");
 
@@ -35,8 +37,8 @@ export default {
   created() {
     // this.$store.dispatch('reset')
     this.$store.dispatch("Cotd/load");
-    if (this.timestamp && this.howManyDaysAgo(this.timestamp) >= 1 || !this.id || this.id === -1) {
-      this.loadCardSetPropsToThis();  // load 
+    if (this.timestamp && dayjs(this.timestamp).isBefore(dayjs()) || !this.id || this.id === -1) {
+      this.loadCardThisProps('hour');  // load 
       this.$store.dispatch("Cotd/set", { // and save
         id: this.id, 
         timestamp: this.timestamp, 
@@ -50,7 +52,7 @@ export default {
         reversed: this.reversed
       });
     } else {
-      this.loadCardSetPropsToThis(this.reversed, this.id);
+      this.loadCardThisProps(dayjs(this.timestamp), !this.reversed, this.id);
     }
   }
 };

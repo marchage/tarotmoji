@@ -36,6 +36,8 @@
 <script>
 import Tarot from "../mixins/tarot";
 import { createNamespacedHelpers } from "../vuex";
+import dayjs from '../dayjs';
+
 
 const { mapState, mapActions, mapGetters } = createNamespacedHelpers(
   "Readings"
@@ -63,17 +65,19 @@ export default {
   },
   methods: {
     getCard(context) {
+      this.currentTab = context;
+      const key = context.toLowerCase();
+
       // @TODO rotate cards based on date (+ number of views per day?), not just checking if it is time for a random change
       // fill all 3 positions if current info is outdated or empty/default.
-      if (this.howManyDaysAgo(this.timestamp) >= 1 || !Object.keys(this.present).length) {
+      if (!this.timestamp || this.timestamp && dayjs(this.timestamp).isBefore(dayjs()) || !this[key] || this[key] && !Object.keys(this[key]).length) {
         this.$store.dispatch("Readings/set", {
-          timestamp: this.todaysDate(),
+          timestamp: dayjs().endOf('minute').format(),
           pastPresFut: [this.getCardInstance(), this.getCardInstance(), this.getCardInstance()]
         });
       }
 
-      this.currentTab = context;
-      this.loadCardSetPropsToThis(this[context.toLowerCase()].direction, this[context.toLowerCase()].id);
+      this.loadCardThisProps(dayjs(this[key].timestamp), this[key].reversed, this[key].id);
     }
   },
   created() {

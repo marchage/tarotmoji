@@ -1,32 +1,21 @@
 import { Cards } from '../data/cards.js';
-import { UtilFuncs } from './UtilFuncs.js';
+import dayjs from '../dayjs';
 
 export default {
     name: 'Card',
     methods: {
         // all has to be methods, no caching
-        todaysDate() {
-            const todayDate = new Date();
-            const dd = String(todayDate.getDate()).padStart(2, '0');
-            const mm = String(todayDate.getMonth() + 1).padStart(2, '0'); //January is 0!
-            const yyyy = todayDate.getFullYear();
-            return mm + '/' + dd + '/' + yyyy;
-        },
-        howManyDaysAgo(ts) {
-            const tsDateObj = new Date(ts);
-            const timeDiff = new Date().getTime() - tsDateObj.getTime();
-            return Math.floor(timeDiff / (1000 * 3600 * 24)); // difference in days
-        },
         rndDirection() {
-            return Math.round(Math.random() * 2);
+            return Math.floor(Math.random() * 2);
         },
         rndCardId() {
-            return Math.round(Math.random() * (Cards.length)); // TODO used to be 72???
+            return Math.floor(Math.random() * (Cards.length));
         },
-        getCardInstance(dir = this.rndDirection(), id = this.rndCardId()) {
+        getCardInstance(dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
             const card = { ...Cards.find(d => d.id === id) };
 
-            card.timestamp = this.todaysDate();
+            card.timestamp = !dayjs.isDayjs(dT) ? dayjs().endOf(dT).format() : dT.format();
+            card.reversed = reversed;
 
             if (card.type !== 'major') {
                 card.major = false;
@@ -40,20 +29,18 @@ export default {
                 card.emoji2 = '';
             }
 
-            if (!dir) {
+            if (!reversed) {
                 card.meaning = card.meaning_up;
-                card.reversed = false;
                 card.icon = 'emoji';
             } else {
                 card.meaning = card.meaning_rev;
-                card.reversed = true;
                 card.icon = 'emoji reversed';
             }
 
             return card;
         },
-        loadCardSetPropsToThis(dir = this.rndDirection(), id = this.rndCardId()) {
-            let card = this.getCardInstance(dir, id);
+        loadCardThisProps( dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
+            let card = this.getCardInstance(dT, reversed, id);
 
             this.id = card.id;
             this.timestamp = card.timestamp;
