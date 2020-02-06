@@ -13,31 +13,26 @@
         <Label col="2" :class="tabButtonClasses('Future')" text="FUTURE" @tap="getCard('Future')" />
       </GridLayout>
       <StackLayout row="1" backgroundColor="#8089A8" style="opacity: .2"></StackLayout>
-      <GridLayout row="2" rows="2*,3*,3*" class="card">
-        <Label row="0" textWrap="true" class="card-title" :text="name" />
-        <Image row="1" v-if="major" :class="icon" :src="emoji" />
-        <StackLayout
-          row="1"
-          rows="*"
-          columns="*,*"
-          v-if="!major"
-          horizontalAlignment="center"
-          orientation="horizontal"
-        >
-          <Image style="margin:5" v-if="!major" :class="icon" :src="emoji1" />
-          <Image style="margin:5" v-if="!major" :class="icon" :src="emoji2" />
-        </StackLayout>
-        <Label row="2" class="meaning" textWrap="true" :text="meaning" />
-      </GridLayout>
+      <CardDetails
+        :name="currentCard.name"
+        :major="currentCard.major"
+        :meaning="currentCard.meaning"
+        :emoji="currentCard.emoji"
+        :emoji1="currentCard.emoji1"
+        :emoji2="currentCard.emoji2"
+        :icon="currentCard.icon"
+        :reversed="currentCard.reversed"
+      />
     </GridLayout>
   </StackLayout>
 </template>
 
 <script>
-import Tarot from "../mixins/tarot";
 import { createNamespacedHelpers } from "../vuex";
-import dayjs from '../dayjs';
+import dayjs from "../dayjs";
 
+import Tarot from "../mixins/tarot";
+import CardDetails from "./CardDetails";
 
 const { mapState, mapActions, mapGetters } = createNamespacedHelpers(
   "Readings"
@@ -45,9 +40,22 @@ const { mapState, mapActions, mapGetters } = createNamespacedHelpers(
 
 export default {
   mixins: [Tarot],
+  components: {
+    CardDetails
+  },
   data() {
     return {
-      currentTab: "Present"
+      currentTab: "Present",
+      currentCard: {
+        major: false,
+        name: "",
+        meaning: "",
+        emoji: "",
+        emoji1: "",
+        emoji2: "",
+        icon: "",
+        reversed: false
+      }
     };
   },
   computed: {
@@ -57,31 +65,55 @@ export default {
         selected: tab === this.currentTab
       });
     },
-    ...mapGetters([
-      "past",
-      "present",
-      "future"
-    ])
+    count() {
+      return this.$store.state.count;
+    },
+    ...mapState({
+      timestamp: state => state.timestamp
+    }),
+    ...mapGetters(["past", "present", "future"])
   },
   methods: {
     getCard(context) {
+      if (
+        this.currentTab === "context" &&
+        this.timestamp &&
+        !dayjs(this.timestamp).isBefore(dayjs())
+      )
+        return;
       this.currentTab = context;
       const key = context.toLowerCase();
 
       // @TODO rotate cards based on date (+ number of views per day?), not just checking if it is time for a random change
       // fill all 3 positions if current info is outdated or empty/default.
-      if (!this.timestamp || this.timestamp && dayjs(this.timestamp).isBefore(dayjs()) || !this[key] || this[key] && !Object.keys(this[key]).length) {
+      if (
+        !this.timestamp ||
+        (this.timestamp && dayjs(this.timestamp).isBefore(dayjs())) ||
+        !this[key] ||
+        (this[key] && !Object.keys(this[key]).length)
+      ) {
         this.$store.dispatch("Readings/set", {
-          timestamp: dayjs().endOf('minute').format(),
-          pastPresFut: [this.getCardInstance(), this.getCardInstance(), this.getCardInstance()]
+          timestamp: dayjs()
+            .endOf("minute")
+            .format(),
+          pastPresFut: [
+            this.getCardInstance("minute"),
+            this.getCardInstance("minute"),
+            this.getCardInstance("minute")
+          ]
         });
       }
 
-      this.loadCardThisProps(dayjs(this[key].timestamp), this[key].reversed, this[key].id);
+      // this.loadCardThisProps(dayjs(this[key].timestamp), this[key].reversed, this[key].id);
+      this.currentCard = this.getCardInstance(
+        dayjs(this.timestamp),
+        this[key].reversed,
+        this[key].id
+      );
     }
   },
   created() {
-    // this.$store.dispatch('reset');
+    // this.$store.dispatch('Readings/reset');
     this.$store.dispatch("Readings/load");
     this.getCard("Present");
   }

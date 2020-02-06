@@ -27,7 +27,7 @@ const actions = {
         ApplicationSettings.setString('Cotd', JSON.stringify(state));
     },
     set({ state, commit }, data) {
-        // we can pass the vue object itself on which all this is defined
+        // we can pass the vue object itself on which all this is defined. not anymore. updated
         Object.keys(state).forEach((d, i, a) => {
             const mutation = 'SET_' + d.toUpperCase();
             const supposedType = typeof state[d];

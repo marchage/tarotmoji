@@ -1,0 +1,55 @@
+<template>
+  <!-- CardDetails -->
+  <GridLayout row="2" rows="2*,*,3*,3*" class="card">
+    <!-- name -->
+    <Label row="0" textWrap="true" class="card-title" :text="name" />
+    <!-- reversed -->
+    <StackLayout
+      v-if="reversed"
+      row="1"
+      style="margin:5"
+      verticalAlignment="top"
+      horizontalAlignment="center"
+      orientation="horizontal"
+    >
+      <Label class="fa status" text.decode="&#xf021;" />
+      <Label class="status" text=" REVERSED" />
+    </StackLayout>
+    <!-- emoji, icon, major -->
+    <Image row="2" v-if="major" :class="icon" :src="emoji" />
+    <!-- emoji1 & emoji2, icon !major -->
+    <StackLayout
+      row="2"
+      rows="*"
+      columns="*,*"
+      v-if="!major"
+      horizontalAlignment="center"
+      orientation="horizontal"
+    >
+      <!-- @TODO can these if not be removed? -->
+      <Image style="margin:5" v-if="!major" :class="icon" :src="emoji1" />
+      <Image style="margin:5" v-if="!major" :class="icon" :src="emoji2" />
+    </StackLayout>
+    <!-- meaning -->
+    <Label row="3" class="meaning" textWrap="true" :text="meaning" />
+  </GridLayout>
+</template>
+
+<script>
+export default {
+  name: 'CardDetails',
+  props: [
+    'name',
+    'reversed',
+    'major',
+    'icon',
+    'emoji',
+    'emoji1',
+    'emoji2',
+    'meaning'
+  ]
+};
+</script>
+
+<style>
+</style>

@@ -11,7 +11,8 @@
             "platform": "ios",
             "appRoot": "${workspaceRoot}",
             "sourceMaps": true,
-            "watch": true
+            "watch": true,
+            "stopOnEntry": true
         },
         {
             "name": "Test on iOS",
@@ -34,7 +35,8 @@
             "platform": "ios",
             "appRoot": "${workspaceRoot}",
             "sourceMaps": true,
-            "watch": false
+            "watch": false,
+            "stopOnEntry": true
         },
         {
             "name": "Launch on Android",

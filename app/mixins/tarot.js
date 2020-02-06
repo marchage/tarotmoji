@@ -6,7 +6,7 @@ export default {
     methods: {
         // all has to be methods, no caching
         rndDirection() {
-            return Math.floor(Math.random() * 2);
+            return !!Math.floor(Math.random() * 2);
         },
         rndCardId() {
             return Math.floor(Math.random() * (Cards.length));
@@ -39,6 +39,7 @@ export default {
 
             return card;
         },
+        // not in use anymore (left here to confuse you?)
         loadCardThisProps( dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
             let card = this.getCardInstance(dT, reversed, id);
 

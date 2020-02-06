@@ -30,11 +30,11 @@
 ideas:
 
 - [x] Put your data in a Vuex store
-- [ ] Refactor the card markup to be a reusable child component
+- [x] Refactor the card markup to be a reusable child component
 - [ ] Change the Past/Present/Future layout to be a different Tarot layout, such as the "Celtic Cross"
 - [ ] Move the Tarot data into a GraphQL database, or port it elsewhere and make API calls against it
 - [x] Change the One Card page to change only when the date changes so that it's a true "Daily Reading". More cool: save the date in Application Settings and test against that
-- [ ] Find a way to store cards and retrieve them
+- [x] Find a way to store cards and retrieve them
 - [ ] Find a way for a Querant to make notes about various readings and their dates
 
 
