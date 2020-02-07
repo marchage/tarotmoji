@@ -76,7 +76,7 @@ export default {
   methods: {
     getCard(context) {
       if (
-        this.currentTab === "context" &&
+        this.currentTab === context &&
         this.timestamp &&
         !dayjs(this.timestamp).isBefore(dayjs())
       )
@@ -97,9 +97,9 @@ export default {
             .endOf("minute")
             .format(),
           pastPresFut: [
-            this.getCardInstance("minute"),
-            this.getCardInstance("minute"),
-            this.getCardInstance("minute")
+            this.getCardInstance(),
+            this.getCardInstance(),
+            this.getCardInstance()
           ]
         });
       }
