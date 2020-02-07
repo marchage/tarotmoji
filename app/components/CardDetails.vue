@@ -26,9 +26,8 @@
       horizontalAlignment="center"
       orientation="horizontal"
     >
-      <!-- @TODO can these if not be removed? -->
-      <Image style="margin:5" v-if="!major" :class="icon" :src="emoji1" />
-      <Image style="margin:5" v-if="!major" :class="icon" :src="emoji2" />
+      <Image style="margin:5" :class="icon" :src="emoji1" />
+      <Image style="margin:5" :class="icon" :src="emoji2" />
     </StackLayout>
     <!-- meaning -->
     <Label row="3" class="meaning" textWrap="true" :text="meaning" />

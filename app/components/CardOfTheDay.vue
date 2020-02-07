@@ -1,15 +1,16 @@
 <template>
   <GridLayout rows="auto,auto" verticalAlignment="top">
     <Label row="0" text="Card of the Day" class="title med" />
+    <!-- had to specify all props iso passing in the containing object -->
     <CardDetails
-      :name="cardOfTheDay.name"
-      :major="cardOfTheDay.major"
-      :meaning="cardOfTheDay.meaning"
-      :emoji="cardOfTheDay.emoji"
-      :emoji1="cardOfTheDay.emoji1"
-      :emoji2="cardOfTheDay.emoji2"
-      :icon="cardOfTheDay.icon"
-      :reversed="cardOfTheDay.reversed"
+      :name="cotd.name"
+      :major="cotd.major"
+      :meaning="cotd.meaning"
+      :emoji="cotd.emoji"
+      :emoji1="cotd.emoji1"
+      :emoji2="cotd.emoji2"
+      :icon="cotd.icon"
+      :reversed="cotd.reversed"
     />
   </GridLayout>
 </template>
@@ -23,26 +24,12 @@ import CardDetails from "./CardDetails";
 
 const { mapState } = createNamespacedHelpers("Cotd");
 
-// had to specify all options out before hand for them to be picked up
+// had to specify all props before hand for them to be picked up
 // by the subcomponent
 export default {
   mixins: [Tarot],
   components: {
     CardDetails
-  },
-  data() {
-    return {
-      cardOfTheDay: { 
-        major: false,
-        name: '',
-        meaning: '',
-        emoji: '',
-        emoji1: '',
-        emoji2: '',
-        icon: '',
-        reversed: false
-       }
-    };
   },
   computed: {
     ...mapState({
@@ -60,11 +47,6 @@ export default {
       })
     })
   },
-  watch: {
-    cotd: function(val, oldVal) {
-      this.cardOfTheDay = val;
-    }
-  },
   created() {
     // this.$store.dispatch('Cotd/reset')
     this.$store.dispatch("Cotd/load");
@@ -73,9 +55,8 @@ export default {
       !this.cotd.id ||
       this.cotd.id === -1
     ) {
-      // this.loadCardThisProps('hour');  // load
-      const cotd = this.getCardInstance("hour"); // initiate
-      this.$store.dispatch("Cotd/set", cotd); // set store
+      const newCotd = this.getCardInstance("hour"); // initiate
+      this.$store.dispatch("Cotd/set", newCotd); // set store
     }
   }
 };

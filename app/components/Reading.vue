@@ -3,25 +3,30 @@
     <Label row="0" text="My Reading" class="title med" />
     <GridLayout rows="auto,1,*" columns="*" class="card">
       <GridLayout row="0" rows="*" columns="*,*,*">
-        <Label col="0" :class="tabButtonClasses('Past')" text="PAST" @tap="getCard('Past')" />
+        <Label col="0" :class="tabButtonClasses('Past')" text="PAST" @tap="getCardDetails('Past')" />
         <Label
           col="1"
           :class="tabButtonClasses('Present')"
           text="PRESENT"
-          @tap="getCard('Present')"
+          @tap="getCardDetails('Present')"
         />
-        <Label col="2" :class="tabButtonClasses('Future')" text="FUTURE" @tap="getCard('Future')" />
+        <Label
+          col="2"
+          :class="tabButtonClasses('Future')"
+          text="FUTURE"
+          @tap="getCardDetails('Future')"
+        />
       </GridLayout>
       <StackLayout row="1" backgroundColor="#8089A8" style="opacity: .2"></StackLayout>
       <CardDetails
-        :name="currentCard.name"
-        :major="currentCard.major"
-        :meaning="currentCard.meaning"
-        :emoji="currentCard.emoji"
-        :emoji1="currentCard.emoji1"
-        :emoji2="currentCard.emoji2"
-        :icon="currentCard.icon"
-        :reversed="currentCard.reversed"
+        :name="pastPresFut[idx].name || ''"
+        :major="pastPresFut[idx].major || false"
+        :meaning="pastPresFut[idx].meaning || ''"
+        :emoji="pastPresFut[idx].emoji || ''"
+        :emoji1="pastPresFut[idx].emoji1 || ''"
+        :emoji2="pastPresFut[idx].emoji2 || ''"
+        :icon="pastPresFut[idx].icon || ''"
+        :reversed="pastPresFut[idx].reversed || false"
       />
     </GridLayout>
   </StackLayout>
@@ -34,9 +39,7 @@ import dayjs from "../dayjs";
 import Tarot from "../mixins/tarot";
 import CardDetails from "./CardDetails";
 
-const { mapState, mapActions, mapGetters } = createNamespacedHelpers(
-  "Readings"
-);
+const { mapState, mapGetters } = createNamespacedHelpers("Readings");
 
 export default {
   mixins: [Tarot],
@@ -46,16 +49,6 @@ export default {
   data() {
     return {
       currentTab: "Present",
-      currentCard: {
-        major: false,
-        name: "",
-        meaning: "",
-        emoji: "",
-        emoji1: "",
-        emoji2: "",
-        icon: "",
-        reversed: false
-      }
     };
   },
   computed: {
@@ -65,20 +58,19 @@ export default {
         selected: tab === this.currentTab
       });
     },
-    count() {
-      return this.$store.state.count;
+    idx() {
+      return ['Past','Present', 'Future'].indexOf(this.currentTab);
     },
-    ...mapState({
-      timestamp: state => state.timestamp
-    }),
+    ...mapState(["pastPresFut", "timestamp"]),
     ...mapGetters(["past", "present", "future"])
   },
   methods: {
-    getCard(context) {
+    getCardDetails(context) {
+      const now = dayjs();
       if (
         this.currentTab === context &&
         this.timestamp &&
-        !dayjs(this.timestamp).isBefore(dayjs())
+        !dayjs(this.timestamp).isBefore(now)
       )
         return;
       this.currentTab = context;
@@ -88,34 +80,26 @@ export default {
       // fill all 3 positions if current info is outdated or empty/default.
       if (
         !this.timestamp ||
-        (this.timestamp && dayjs(this.timestamp).isBefore(dayjs())) ||
+        (this.timestamp && dayjs(this.timestamp).isBefore(now)) ||
         !this[key] ||
         (this[key] && !Object.keys(this[key]).length)
       ) {
         this.$store.dispatch("Readings/set", {
-          timestamp: dayjs()
-            .endOf("minute")
-            .format(),
+          timestamp: now.endOf("minute").format(),
           pastPresFut: [
+            // card timestamps get ignored in reading
             this.getCardInstance(),
             this.getCardInstance(),
             this.getCardInstance()
           ]
         });
       }
-
-      // this.loadCardThisProps(dayjs(this[key].timestamp), this[key].reversed, this[key].id);
-      this.currentCard = this.getCardInstance(
-        dayjs(this.timestamp),
-        this[key].reversed,
-        this[key].id
-      );
     }
   },
   created() {
     // this.$store.dispatch('Readings/reset');
     this.$store.dispatch("Readings/load");
-    this.getCard("Present");
+    this.getCardDetails("Present");
   }
 };
 </script>
