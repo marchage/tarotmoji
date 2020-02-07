@@ -23,7 +23,7 @@ import CardDetails from "./CardDetails";
 
 const { mapState } = createNamespacedHelpers("Cotd");
 
-// strangely enough had to specify all options out before hand for them to be picked up
+// had to specify all options out before hand for them to be picked up
 // by the subcomponent
 export default {
   mixins: [Tarot],
