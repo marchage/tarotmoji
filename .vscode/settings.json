@@ -2,5 +2,8 @@
     "files.exclude": {
         "**/platforms": true
     },
-    "files.autoSaveDelay": 2000
+    "files.autoSaveDelay": 2000,
+    "cSpell.words": [
+        "significator"
+    ]
 }

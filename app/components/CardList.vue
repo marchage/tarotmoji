@@ -2,6 +2,7 @@
   <GridLayout rows="auto,*" verticalAlignment="top">
     <Label row="0" text="Card Meanings" class="title med" />
     <StackLayout row="1" class="meaning-card" orientation="vertical">
+      <!-- @TODO Avoid using ListView or ScrollView with no explicit height set inside StackLayout. Doing so might results in poor user interface performance and a poor user experience -->
       <ListView
         class="list-group"
         for="item in allCards"

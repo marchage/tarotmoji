@@ -3,8 +3,16 @@ import dayjs from '../dayjs';
 
 export default {
     name: 'Card',
+    data() {
+        return {
+            DEBUG: true
+        }
+    },
     methods: {
         // all has to be methods, no caching
+        rndEndOf() {
+            return "minute";
+        },
         rndDirection() {
             return !!Math.floor(Math.random() * 2);
         },
@@ -40,7 +48,7 @@ export default {
             return card;
         },
         // not in use anymore (left here to confuse you?)
-        loadCardThisProps( dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
+        loadCardThisProps(dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
             let card = this.getCardInstance(dT, reversed, id);
 
             this.id = card.id;

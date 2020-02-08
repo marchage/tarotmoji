@@ -13,8 +13,8 @@
             <Button :class="navigationButtonClasses('CardList')"
                 text.decode="&#xf0c9;" @tap="currentComponent = 'CardList' "
                 row="2" col="1" />
-            <Button :class="navigationButtonClasses('Reading')"
-                text.decode="&#xf24d;" @tap="currentComponent = 'Reading'"
+            <Button :class="navigationButtonClasses('PPFReading')"
+                text.decode="&#xf24d;" @tap="currentComponent = 'PPFReading'"
                 row="2" col="2" />
         </GridLayout>
     </Page>
@@ -23,13 +23,13 @@
 <script>
     import CardOfTheDay from "../components/CardOfTheDay";
     import CardList from "../components/CardList";
-    import Reading from "../components/Reading";
+    import PPFReading from "../components/PPFReading";
 
     export default {
         data() {
             return {
                 currentComponent: "CardOfTheDay",
-                componentsArray: ["CardOfTheDay", "CardList", "Reading"]
+                componentsArray: ["CardOfTheDay", "CardList", "PPFReading"]
             };
         },
         computed: {
@@ -44,7 +44,7 @@
         components: {
             CardOfTheDay,
             CardList,
-            Reading
+            PPFReading
         }
     };
 </script>

@@ -1,7 +1,8 @@
 import * as ApplicationSettings from "@nativescript/core/application-settings";
 
-const initS = {
+const initS = () => ({
     id: -1,
+    timestamp: '', 
     major: true,
     name: '',
     meaning: '',
@@ -9,27 +10,50 @@ const initS = {
     emoji1: '',
     emoji2: '',
     icon: 'emoji',
-    reversed: 0
-};
-const initialState = () => ({
+    reversed: false
+});
+const initPPFS = () => [
+    // texts: @source https://www.simplytarot.com/tarot-spreads/past-present-future-tarot-spread/
+    // icm with the word "seeker" from @see https://divinationandfortunetelling.com/articles/2017/4/30/the-celtic-cross-tarot-spread
+    { title: 'Past', card: initS(), detail: 'past - highlights people, situations and/or influences from the past that still have an affect on the seeker' },
+    { title: 'Present', card: initS(), detail: 'present - illustrates the current situation and key people who may bear influence on the seeker' },
+    { title: 'Future', card: initS(), detail: 'future - based on what is happening now: the natural follow on, or outcome, for the seeker' }
+];
+const initCCS = () => [
+    // titles from @source https://i.pinimg.com/474x/b9/d6/04/b9d60400bb7b33a7872bf7b87012a86c--tarot-spreads-celtic-crosses.jpg
+    // texts from @source https://divinationandfortunetelling.com/articles/2017/4/30/the-celtic-cross-tarot-spread
+    { title: 'Significator', card: initS(), detail: 'significator - determines the positions of the rest of the reading' },
+    { title: 'Covering Card', card: initS(), detail: 'covers seeker - outlines the situation which the seeker finds themselves in' },
+    { title: 'Crossing Card', card: initS(), detail: 'crosses seeker - indicates the problem which the seeker is going through and why they have come for a reading' },
+    { title: 'Crown', card: initS(), detail: 'crowns seeker - usually shows the best the seeker can hope for out of the situation' },
+    { title: 'Grave', card: initS(), detail: 'below seeker - it drives the psychological reasons why the seeker wishes to know what is going to happen in the future instead of letting it just be as it will be' },
+    { title: 'Past Influence', card: initS(), detail: 'behind seeker - concerns the recent past of the situation at hand' },
+    { title: 'Future Influence', card: initS(), detail: 'in front of seeker - what can be expected in the very short term future' },
+    { title: 'Personal', card: initS(), detail: 'seeker him/her self - outlines the seeker and their attitude towards the situation in general' },
+    { title: 'Environmental', card: initS(), detail: 'seeker’s house - outlines the environment which the seeker finds themselves in which influences the question' },
+    { title: 'Psychological', card: initS(), detail: 'hopes & fears - read a ‘positive’ card in this position as hopes and negative cards as ‘fears’' },
+    { title: 'Future', card: initS(), detail: 'outcome - shows the long term outcome which the seeker will get for the whole situation' }
+];
+const initialState = (type /* 'PPF' || 'CC' */) => ({
     timestamp: '',
-    pastPresFut: Array(3).fill({ ...initS }),
-    // @TODO celticCross: Array(10).fill({ ...initS })
+    views: 0,
+    type,
+    positions: initPPFS()
 });
 
 // State object
-const state = initialState();
+const state = initialState('PPF');
 
 // Getter functions
 const getters = {
     past(state) {
-        return state.pastPresFut[0];
+        return state.type === 'PPF' ? state.positions[0] : state.positions[6];
     },
     present(state) {
-        return state.pastPresFut[1];
+        return state.type === 'PPF' ? state.positions[1] : state.positions[4];
     },
     future(state) {
-        return state.pastPresFut[2];
+        return state.type === 'PPF' ? state.positions[2] : state.positions[10];
     }
 }
 
@@ -57,7 +81,7 @@ const actions = {
             stored = JSON.parse(stored);
         }
         if (stored) {
-            dispatch('set', { ...state, ...stored});
+            dispatch('set', { ...state, ...stored });
         }
     }
 };
@@ -73,16 +97,7 @@ const mutations = {
     ...Object.keys(initialState()).reduce((s, d, i, a) => {
         let funcName = 'SET_' + d.toUpperCase();
         return { ...s, [funcName]: (state, payload) => { state[d] = payload; } };
-    }, {}),
-    SET_PAST(state, payload) {
-        state.pastPresFut[0] = payload;
-    },
-    SET_PRESENT(state, payload) {
-        state.pastPresFut[1] = payload;
-    },
-    SET_FUTURE(state, payload) {
-        state.pastPresFut[2] = payload;
-    }
+    }, {})
 }
 
 export default {
