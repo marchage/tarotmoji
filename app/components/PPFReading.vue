@@ -1,6 +1,6 @@
 <template>
   <StackLayout>
-    <Label row="0" text="P-P-F Reading" class="title med" />
+    <Label row="0" text="My Past-Present-Future Reading" class="title med" />
     <GridLayout rows="auto,1,*" columns="*"  class="card">
       <GridLayout row="0" rows="*" columns="*,*,*">
         <!-- doesn't render reliably with v-for (likely icw Tabs) -->

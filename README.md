@@ -37,8 +37,15 @@ ideas:
 - [x] Find a way to store cards and retrieve them
 - [ ] Find a way for a Querant to make notes about various readings and their dates
 
+## own additions
+
+hieraan heb ik zelf nog maar toegevoegd
+
+- [x] Incorporate more animation and/or use standard components
 
 # ontdekte fouten
 
 - 72 ipv 80-something kaarten waaruit gekozen werd
 - missing reversed indicator bij readings
+
+# 

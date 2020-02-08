@@ -5,7 +5,7 @@ import Vue from 'nativescript-vue';
 
 
 // https://stackoverflow.com/a/58753786
-// 
+
 
 import Home from './components/Home';
 
