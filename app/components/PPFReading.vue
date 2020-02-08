@@ -1,40 +1,56 @@
 <template>
   <StackLayout>
     <Label row="0" text="P-P-F Reading" class="title med" />
-    <GridLayout rows="auto,1,*" columns="*" class="card">
+    <GridLayout rows="auto,1,*" columns="*"  class="card">
       <GridLayout row="0" rows="*" columns="*,*,*">
-        <Label
-          v-for="(pos, idx) in positions"
-          :key="idx"
-          :col="idx"
-          :class="tabClss(idx)"
-          :text="'' + tabs.length >= idx - 1 ? tabs[idx] : 'OUT OF RANGE jonguh!'"
-          @tap="selectedIdx = idx"
-        />
+        <!-- doesn't render reliably with v-for (likely icw Tabs) -->
+        <Label col="0" :class="tabClss(0)" text="PAST" @tap="onSelect0"></Label>
+        <Label col="1" :class="tabClss(1)" text="PRESENT" @tap="onSelect1"></Label>
+        <Label col="2" :class="tabClss(2)" text="FUTURE" @tap="onSelect2"></Label>
       </GridLayout>
       <StackLayout row="1" backgroundColor="#8089A8" style="opacity: .2"></StackLayout>
-      <Tabs row="2" selectedIndex="selectedIdx" @selectedIndexChanged="onSelectedIdxChanged">
-        <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
-        <!-- <TabStrip>
-          <TabStripItem v-for="(position, idx) in positions" :key"position.card.id">
-            <Label :class="tabClss(tab)" :text="tab"></Label>
-          </TabStripItem>
-        </TabStrip>-->
-        <!-- The number of TabContentItem components should corespond to the number of TabStripItem components -->
-        <TabContentItem v-for="(pos, idx) in positions" :key="idx">
-          <!-- doesn't render without a closing tag -->
-          <CardDetails
-            :name="pos.card.name"
-            :major="pos.card.major"
-            :meaning="pos.card.meaning"
-            :emoji="pos.card.emoji"
-            :emoji1="pos.card.emoji1"
-            :emoji2="pos.card.emoji2"
-            :icon="pos.card.icon"
-            :reversed="pos.card.reversed"
-          ></CardDetails>
-        </TabContentItem>
-      </Tabs>
+      <StackLayout row="2">
+        <Tabs :selectedIndex="selectedIdx" @selectedIndexChanged="onSelectedIdxChanged">
+          <TabContentItem>
+            <!-- doesn't render without a closing tag -->
+            <!-- doesn't render reliably with v-for -->
+            <CardDetails
+              :name="positions[0].name"
+              :major="positions[0].major"
+              :meaning="positions[0].meaning"
+              :emoji="positions[0].emoji"
+              :emoji1="positions[0].emoji1"
+              :emoji2="positions[0].emoji2"
+              :icon="positions[0].icon"
+              :reversed="positions[0].reversed"
+            ></CardDetails>
+          </TabContentItem>
+          <TabContentItem>
+            <CardDetails
+              :name="positions[1].name"
+              :major="positions[1].major"
+              :meaning="positions[1].meaning"
+              :emoji="positions[1].emoji"
+              :emoji1="positions[1].emoji1"
+              :emoji2="positions[1].emoji2"
+              :icon="positions[1].icon"
+              :reversed="positions[1].reversed"
+            ></CardDetails>
+          </TabContentItem>
+          <TabContentItem>
+            <CardDetails
+              :name="positions[2].name"
+              :major="positions[2].major"
+              :meaning="positions[2].meaning"
+              :emoji="positions[2].emoji"
+              :emoji1="positions[2].emoji1"
+              :emoji2="positions[2].emoji2"
+              :icon="positions[2].icon"
+              :reversed="positions[2].reversed"
+            ></CardDetails>
+          </TabContentItem>
+        </Tabs>
+      </StackLayout>
     </GridLayout>
   </StackLayout>
 </template>
@@ -70,27 +86,36 @@ export default {
     ...mapGetters(["past", "present", "future"])
   },
   methods: {
-    onSelectedIdxChanged({ newIndex }) {
-      if (this.shouldLoadNewCards()) this.loadNewCards();
-      else this.$store.dispatch("Readings/set", { views: this.views - 1 });
-      if (
-        typeof newIndex === "number" &&
-        !isNaN(newIndex) &&
-        this.selectedIdx !== newIndex
-      )
-        this.selectedIdx = newIndex;
-      else console.error("no reason to update index, new index:", newIndex);
+    // ugly!!! tried a lot of options, for many hours. Settled on something practical like this
+    onSelect0() {
+      this.selectedIdx = 0;
+    },
+    onSelect1() {
+      this.selectedIdx = 1;
+    },
+    onSelect2() {
+      this.selectedIdx = 2;
+    },
+    onSelectedIdxChanged(args) {
+      const prevSelectedIdx = this.selectedIdx;
+      this.selectedIdx =
+        typeof args === "object" &&
+        typeof args.newIndex === "number" &&
+        !isNaN(args.newIndex)
+          ? args.newIndex
+          : this.selectedIdx;
+      if (prevSelectedIdx !== this.selectedIdx) {
+        if (this.shouldLoadNewCards()) this.loadNewCards();
+        else this.$store.dispatch("Readings/set", { views: this.views - 1 });
+      }
     },
     shouldLoadNewCards() {
-      // re-fill card positions if
-      // @TODO could shift iso of replace all... nahh
       return (
-        !this.timestamp || 
+        !this.timestamp ||
         (this.timestamp && dayjs(this.timestamp).isBefore(dayjs())) || // timestamp is too old
         !this.views ||
-        (this.views && this.views < 0) || // current reading is viewed too often,
-        !this.type ||
-        !this.positions.map(d => d.card).reduce((s, d) => s || ~d.id, 0) // current reading (partially) contains default cards.
+        (this.views && this.views <= 0) || // current reading is viewed too often,
+        this.positions.reduce((sum, position) => !~position.id || sum === 0, 0) // current reading (partially) contains default cards.
       );
     },
     loadNewCards() {
@@ -100,18 +125,14 @@ export default {
           .format(),
         type: this.type,
         views: Math.round(Math.random() * 6) + 5,
-        // spread all positions, and spread all sub-object props, so
-        // copy of the position will get its card prop = instance
-        positions: [...this.positions].map(d => {
-          const _d = { ...d };
-          _d.card = dayjs(d.card.timestamp).isBefore(dayjs()) ? d.card : this.getCardInstance();
-          return _d;
-        })
+        positions: this.positions.map(pos =>
+          Object.assign({}, pos, this.getCardInstance(this.rndEndOf()))
+        )
       });
     }
   },
   created() {
-    // this.$store.dispatch('Readings/reset');
+    // this.$store.dispatch("Readings/reset");
     this.$store.dispatch("Readings/load");
     if (this.shouldLoadNewCards()) this.loadNewCards();
   }
