@@ -11,7 +11,24 @@ export default {
     methods: {
         // all has to be methods, no caching
         rndEndOf() {
-            return "minute";
+            return [
+                "year",
+                "day",
+                "hour",
+                "minute",
+                "month",
+                "day",
+                "hour",
+                "minute",
+                "quarter",
+                "day",
+                "hour",
+                "minute",
+                "week",
+                "day",
+                "hour",
+                "minute",
+                "second"].reduce((s, d, i, a) => s || a[Math.round(Math.random() * 16)], '');
         },
         rndDirection() {
             return !!Math.floor(Math.random() * 2);
