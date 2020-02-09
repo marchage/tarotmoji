@@ -42,6 +42,13 @@ ideas:
 hieraan heb ik zelf nog maar toegevoegd
 
 - [x] Incorporate more animation and/or use standard components
+- [x] moduled store
+- [x] maak de tarot werking realistischer door een maximum aantal keer kijken toetestaan voor deze ongeldig wordt en wordt verwijderd
+- [x] goede tijds ondersteuning (maar minder groot dan moment.js) 
+- [ ] voeg meer info mogelijkheden toe met uitleg of verwijzingen wellicht
+- [ ] maak lastige termen klikbaar
+- [ ] voeg ondersteuning voor chinese toe
+- [ ] 
 
 # ontdekte fouten
 

@@ -5,7 +5,8 @@ export default {
     name: 'Card',
     data() {
         return {
-            DEBUG: true
+            DEBUG: true,
+            issuedCardIds: new Map()
         }
     },
     methods: {
@@ -37,11 +38,23 @@ export default {
             return Math.floor(Math.random() * (Cards.length));
         },
         getCardInstance(dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
+            // return copy of card data
             const card = { ...Cards.find(d => d.id === id) };
 
+            // set id to [card data id].[instance num] 
+            // @TODO dispatch load from long term storage
+            // @TODO dispatch set to long term storage
+            // @TODO (maybe) incorporate js big decimal for endless viewing pleasure?
+            const instanceIds = this.issuedCardIds.get(card.id) || [];
+            const lastIssuedId = instanceIds.pop() || 0.0;
+            const lastInstanceSubId = lastIssuedId - Math.floor(lastIssuedId);
+            const newCardId = +(card.id + '.' + (lastInstanceSubId + 1));
+            this.issuedCardIds.set(card.id, [...instanceIds, newCardId]);
+            card.id = newCardId;
+            // set timestamp
             card.timestamp = !dayjs.isDayjs(dT) ? dayjs().endOf(dT).format() : dT.format();
+            // set the rest
             card.reversed = reversed;
-
             if (card.type !== 'major') {
                 card.major = false;
                 card.emoji = '';
@@ -61,23 +74,8 @@ export default {
                 card.meaning = card.meaning_rev;
                 card.icon = 'emoji reversed';
             }
-
+            
             return card;
-        },
-        // not in use anymore (left here to confuse you?)
-        loadCardThisProps(dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
-            let card = this.getCardInstance(dT, reversed, id);
-
-            this.id = card.id;
-            this.timestamp = card.timestamp;
-            this.name = card.name;
-            this.major = card.major;
-            this.emoji = card.emoji;
-            this.emoji1 = card.emoji1;
-            this.emoji2 = card.emoji2;
-            this.meaning = card.meaning;
-            this.reversed = card.reversed;
-            this.icon = card.icon;
-        },
+        }
     },
 };

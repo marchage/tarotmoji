@@ -1,53 +1,24 @@
 <template>
   <StackLayout>
     <Label row="0" text="My Past-Present-Future Reading" class="title med" />
-    <GridLayout rows="auto,1,*" columns="*"  class="card">
-      <GridLayout row="0" rows="*" columns="*,*,*">
-        <!-- doesn't render reliably with v-for (likely icw Tabs) -->
-        <Label col="0" :class="tabClss(0)" text="PAST" @tap="onSelect0"></Label>
-        <Label col="1" :class="tabClss(1)" text="PRESENT" @tap="onSelect1"></Label>
-        <Label col="2" :class="tabClss(2)" text="FUTURE" @tap="onSelect2"></Label>
+    <GridLayout rows="auto,1,*" columns="*" class="card">
+      <GridLayout row="0" rows="*" :columns="Array(positions.length).fill('*').join()">
+        <!-- might not render without closing tag, e.g. <Label /> -->
+        <Label
+          v-for="(p, i) in positions"
+          :key="p.id"
+          :col="i"
+          :class="tabClss(i)"
+          :text="p.title"
+          @tap="onTap(i)"
+        ></Label>
       </GridLayout>
       <StackLayout row="1" backgroundColor="#8089A8" style="opacity: .2"></StackLayout>
       <StackLayout row="2">
         <Tabs :selectedIndex="selectedIdx" @selectedIndexChanged="onSelectedIdxChanged">
-          <TabContentItem>
+          <TabContentItem v-for="p in positions" :key="p.id">
             <!-- doesn't render without a closing tag -->
-            <!-- doesn't render reliably with v-for -->
-            <CardDetails
-              :name="positions[0].name"
-              :major="positions[0].major"
-              :meaning="positions[0].meaning"
-              :emoji="positions[0].emoji"
-              :emoji1="positions[0].emoji1"
-              :emoji2="positions[0].emoji2"
-              :icon="positions[0].icon"
-              :reversed="positions[0].reversed"
-            ></CardDetails>
-          </TabContentItem>
-          <TabContentItem>
-            <CardDetails
-              :name="positions[1].name"
-              :major="positions[1].major"
-              :meaning="positions[1].meaning"
-              :emoji="positions[1].emoji"
-              :emoji1="positions[1].emoji1"
-              :emoji2="positions[1].emoji2"
-              :icon="positions[1].icon"
-              :reversed="positions[1].reversed"
-            ></CardDetails>
-          </TabContentItem>
-          <TabContentItem>
-            <CardDetails
-              :name="positions[2].name"
-              :major="positions[2].major"
-              :meaning="positions[2].meaning"
-              :emoji="positions[2].emoji"
-              :emoji1="positions[2].emoji1"
-              :emoji2="positions[2].emoji2"
-              :icon="positions[2].icon"
-              :reversed="positions[2].reversed"
-            ></CardDetails>
+            <CardDetails v-bind="p"></CardDetails>
           </TabContentItem>
         </Tabs>
       </StackLayout>
@@ -58,6 +29,7 @@
 <script>
 import { createNamespacedHelpers } from "../vuex";
 import dayjs from "../dayjs";
+import Vue from "nativescript-vue";
 
 import Tarot from "../mixins/tarot";
 import CardDetails from "./CardDetails";
@@ -86,18 +58,11 @@ export default {
     ...mapGetters(["past", "present", "future"])
   },
   methods: {
-    // ugly!!! tried a lot of options, for many hours. Settled on something practical like this
-    onSelect0() {
-      this.selectedIdx = 0;
-    },
-    onSelect1() {
-      this.selectedIdx = 1;
-    },
-    onSelect2() {
-      this.selectedIdx = 2;
+    onTap(tabIdx) {
+      this.selectedIdx = tabIdx;
     },
     onSelectedIdxChanged(args) {
-      const prevSelectedIdx = this.selectedIdx;
+      const prevSelectedIdx = args.oldIndex;
       this.selectedIdx =
         typeof args === "object" &&
         typeof args.newIndex === "number" &&
@@ -119,15 +84,19 @@ export default {
       );
     },
     loadNewCards() {
+      const newTimestamp = dayjs()
+        .endOf(this.rndEndOf())
+        .format();
       this.$store.dispatch("Readings/set", {
-        timestamp: dayjs()
-          .endOf(this.rndEndOf())
-          .format(),
+        timestamp: newTimestamp,
         type: this.type,
         views: Math.round(Math.random() * 6) + 5,
-        positions: this.positions.map(pos =>
-          Object.assign({}, pos, this.getCardInstance(this.rndEndOf()))
-        )
+        // as to not loose the title and details props
+        positions: this.positions.map(pos => ({
+          title: pos.title,
+          detail: pos.detail,
+          ...this.getCardInstance(newTimestamp)
+        }))
       });
     }
   },
