@@ -3,7 +3,7 @@
     <Label row="0" text="My Past-Present-Future Reading" class="title med" />
     <GridLayout rows="auto,1,*" columns="*" class="card">
       <GridLayout row="0" rows="*" :columns="Array(positions.length).fill('*').join()">
-        <!-- might not render without closing tag, e.g. <Label /> -->
+        <!-- might not render without closing tag, i.e. <Label /> might not work -->
         <Label
           v-for="(p, i) in positions"
           :key="p.id"
@@ -17,7 +17,7 @@
       <StackLayout row="2">
         <Tabs :selectedIndex="selectedIdx" @selectedIndexChanged="onSelectedIdxChanged">
           <TabContentItem v-for="p in positions" :key="p.id">
-            <!-- doesn't render without a closing tag -->
+            <!-- doesn't render without a closing tag, i.e. <CardDetails /> does not work -->
             <CardDetails v-bind="p"></CardDetails>
           </TabContentItem>
         </Tabs>

@@ -1,18 +1,7 @@
 import * as ApplicationSettings from "@nativescript/core/application-settings";
+import { entries } from '../../data/card';
 
-
-const initialState = () => ({
-    id: -1,
-    timestamp: '', 
-    major: true,
-    name: '',
-    meaning: '',
-    emoji: '',
-    emoji1: '',
-    emoji2: '',
-    icon: 'emoji',
-    reversed: false
-});
+const initialState = () => Object.fromEntries(entries);
 
 // State object
 const state = initialState();

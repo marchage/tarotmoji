@@ -38,6 +38,7 @@ export default {
             return Math.floor(Math.random() * (Cards.length));
         },
         getCardInstance(dT = 'day', reversed = this.rndDirection(), id = this.rndCardId()) {
+            if (id % 1) id = Math.floor(id);
             // return copy of card data
             const card = { ...Cards.find(d => d.id === id) };
 

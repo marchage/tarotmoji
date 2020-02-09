@@ -1,7 +1,7 @@
 import * as ApplicationSettings from "@nativescript/core/application-settings";
-import { initPPFState, initCCState, initCardState } from '../../data/layouts';
+import * as Layouts from '../../data/layouts';
 
-export const entries = new Map([
+const entries = new Map([
     ['timestamp', ''],
     ['views', 0],
     ['type', ''],
@@ -9,9 +9,10 @@ export const entries = new Map([
 ]);
 
 const initialState = (type /* 'PPF' || 'CC' */) => {
-    const res = Object.fromEntries(entries);
-    res.positions = this['init'+type+'State']();
-    return res;
+    const newState = Object.fromEntries(entries);
+    // positions is a complex type
+    newState.positions = Layouts[`init${type}State`](); // @see https://stackoverflow.com/a/56843411
+    return newState;
 }
 
 // State object
@@ -67,10 +68,18 @@ const mutations = {
             state[key] = newState[key]
         });
     },
-    ...Object.keys(initialState()).reduce((s, d, i, a) => {
-        let funcName = 'SET_' + d.toUpperCase();
-        return { ...s, [funcName]: (state, payload) => { state[d] = payload; } };
-    }, {})
+    SET_POSITIONS(state, payload) {
+        // copy old data, overwrite with new data (@TODO that doesn't sound right)
+        // shallow data required, or we need deepClone
+        // @TODO keep an eye out for cards flipping boolean values... how do they get overwritten?
+        state.positions = state.positions.map((pos, i, a) => ({ ...pos, ...payload[i] }));
+    }
+}
+// add mutations (for primitive types)
+for (const k of entries.keys()) {
+    let funcName = 'SET_' + k.toUpperCase();
+    if (!mutations[funcName])
+        mutations[funcName] = (state, payload) => { state[k] = payload; };
 }
 
 export default {
