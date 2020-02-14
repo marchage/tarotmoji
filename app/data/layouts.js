@@ -1,15 +1,16 @@
 import { initCardState } from './card';
+import { ObservableArray } from 'tns-core-modules/data/observable-array';
 
-const PPF = () => [
+const PPF = () => new ObservableArray([
     // texts: @source https://www.simplytarot.com/tarot-spreads/past-present-future-tarot-spread/
     // icm with the word "seeker" from @see https://divinationandfortunetelling.com/articles/2017/4/30/the-celtic-cross-tarot-spread
     { title: 'Past', detail: 'past - highlights people, situations and/or influences from the past that still have an affect on the seeker' },
     { title: 'Present', detail: 'present - illustrates the current situation and key people who may bear influence on the seeker' },
     { title: 'Future', detail: 'future - based on what is happening now: the natural follow on, or outcome, for the seeker' }
-];
+]);
 export const initPPFState = () => PPF().map(position => ({ ...position, ...initCardState() }));
 
-const CC = () => [
+const CC = () => new ObservableArray([
     // titles from @source https://i.pinimg.com/474x/b9/d6/04/b9d60400bb7b33a7872bf7b87012a86c--tarot-spreads-celtic-crosses.jpg
     // texts from @source https://divinationandfortunetelling.com/articles/2017/4/30/the-celtic-cross-tarot-spread
     { title: 'Significator', detail: 'significator - determines the positions of the rest of the reading' },
@@ -23,5 +24,5 @@ const CC = () => [
     { title: 'Environmental', detail: 'seeker’s house - outlines the environment which the seeker finds themselves in which influences the question' },
     { title: 'Psychological', detail: 'hopes & fears - read a ‘positive’ card in this position as hopes and negative cards as ‘fears’' },
     { title: 'Future', detail: 'outcome - shows the long term outcome which the seeker will get for the whole situation' }
-];
+]);
 export const initCCState = () => CC().map(position => ({ ...position, ...initCardState() }));

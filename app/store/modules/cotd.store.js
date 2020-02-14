@@ -25,7 +25,7 @@ const actions = {
                 commit(mutation, data[d]);
             }
         });
-        ApplicationSettings.setString('Cotd', JSON.stringify(state));
+        if (!data.skipAS) ApplicationSettings.setString('Cotd', JSON.stringify(state));
     },
     load({ state, dispatch }) {
         let stored = ApplicationSettings.getString('Cotd');
@@ -33,7 +33,7 @@ const actions = {
             stored = JSON.parse(stored);
         }
         if (stored) {
-            dispatch('set', Object.assign({}, state, stored));
+            dispatch('set', Object.assign({}, state, stored, {skipAS: true}));
         }
     }
 };

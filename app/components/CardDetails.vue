@@ -1,23 +1,22 @@
 <template>
   <!-- CardDetails -->
-  <GridLayout row="2" rows="2*,*,3*,3*" class="card">
+  <GridLayout rows="2*,*,3*,3*" class="card">
     <!-- name -->
     <Label row="0" textWrap="true" class="card-title" :text="name" />
     <!-- reversed -->
     <StackLayout
-      v-if="reversed"
       row="1"
       style="margin:5"
       verticalAlignment="top"
       horizontalAlignment="center"
       orientation="horizontal"
     >
-      <Label class="fa status" text.decode="&#xf021;" />
-      <Label class="status" text=" REVERSED" />
+      <Label v-if="reversed" class="fa status" text.decode="&#xf021;" />
+      <Label v-if="reversed" class="status" text=" REVERSED" />
     </StackLayout>
-    <!-- emoji, icon, major -->
+    <!-- emoji -->
     <Image row="2" v-if="major" :class="icon" :src="emoji" />
-    <!-- emoji1 & emoji2, icon !major -->
+    <!-- emoji1/2 -->
     <StackLayout
       row="2"
       rows="*"

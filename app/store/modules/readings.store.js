@@ -1,11 +1,12 @@
 import * as ApplicationSettings from "@nativescript/core/application-settings";
 import * as Layouts from '../../data/layouts';
+import { ObservableArray } from 'tns-core-modules/data/observable-array';
 
 const entries = new Map([
     ['timestamp', ''],
     ['views', 0],
     ['type', ''],
-    ['positions', []],
+    ['positions', new ObservableArray([])],
 ]);
 
 const initialState = (type /* 'PPF' || 'CC' */) => {
@@ -21,13 +22,13 @@ const state = initialState('PPF');
 // Getter functions
 const getters = {
     past(state) {
-        return state.type === 'PPF' ? state.positions[0] : state.positions[6];
+        return state.type === 'PPF' ? state.positions.getItem(0) : state.positions.getItem(6);
     },
     present(state) {
-        return state.type === 'PPF' ? state.positions[1] : state.positions[4];
+        return state.type === 'PPF' ? state.positions.getItem(1) : state.positions.getItem(4);
     },
     future(state) {
-        return state.type === 'PPF' ? state.positions[2] : state.positions[10];
+        return state.type === 'PPF' ? state.positions.getItem(2) : state.positions.getItem(10);
     }
 }
 
@@ -47,7 +48,7 @@ const actions = {
                 commit(mutation, data[d]);
             }
         });
-        ApplicationSettings.setString('Readings', JSON.stringify(state));
+        if (!data.skipAS) ApplicationSettings.setString('Readings', JSON.stringify(state));
     },
     load({ state, dispatch }) {
         let stored = ApplicationSettings.getString('Readings');
@@ -55,7 +56,7 @@ const actions = {
             stored = JSON.parse(stored);
         }
         if (stored) {
-            dispatch('set', { ...state, ...stored });
+            dispatch('set', { ...state, ...stored, skipAS: true });
         }
     }
 };

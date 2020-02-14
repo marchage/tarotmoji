@@ -1,8 +1,9 @@
 <template>
   <GridLayout rows="auto,auto" verticalAlignment="top">
     <Label row="0" text="Card of the Day" class="title med" />
-    <!-- had to specify all props iso passing in the containing object -->
-    <CardDetails
+    <!-- had to specify all props iso passing in the containing object @TODO -->
+    <CardDetails 
+      row="1"
       :name="cotd.name"
       :major="cotd.major"
       :meaning="cotd.meaning"
@@ -55,7 +56,7 @@ export default {
       !this.cotd.id ||
       this.cotd.id === -1
     ) {
-      const newCotd = this.getCardInstance("hour"); // initiate
+      const newCotd = this.getCardInstance("hour"); // initiate @TODO set time to day
       this.$store.dispatch("Cotd/set", newCotd); // set store
     }
   }

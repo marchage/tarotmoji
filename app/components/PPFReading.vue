@@ -1,6 +1,6 @@
 <template>
   <StackLayout>
-    <Label row="0" text="My Past-Present-Future Reading" class="title med" />
+    <Label text="My Reading" class="title med" />
     <GridLayout rows="auto,1,*" columns="*" class="card">
       <GridLayout row="0" rows="*" :columns="Array(positions.length).fill('*').join()">
         <!-- might not render without closing tag, i.e. <Label /> might not work -->
@@ -14,14 +14,27 @@
         ></Label>
       </GridLayout>
       <StackLayout row="1" backgroundColor="#8089A8" style="opacity: .2"></StackLayout>
-      <StackLayout row="2">
-        <Tabs :selectedIndex="selectedIdx" @selectedIndexChanged="onSelectedIdxChanged">
-          <TabContentItem v-for="p in positions" :key="p.id">
-            <!-- doesn't render without a closing tag, i.e. <CardDetails /> does not work -->
-            <CardDetails v-bind="p"></CardDetails>
-          </TabContentItem>
-        </Tabs>
-      </StackLayout>
+      <RadListView
+        ref="listview"
+        for="p in positions"
+        orientation="horizontal"
+        pullToRefresh="true"
+        :pullToRefreshStyle="{
+            indicatorBackgroundColor: '#E3E9F8', 
+            indicatorColor: '#142237'
+          }"
+        layout="staggered"
+        gridSpanCount="1"
+        @scrolled="onScrolled"
+        @pullToRefreshInitiated="onPullToRefreshInitiated"
+        horizontalAlignment="center"
+        row="2"
+        itemWidth="100%"
+      >
+        <v-template>
+          <CardDetails ios:width="100%" :key="p.id" v-bind="p"></CardDetails>
+        </v-template>
+      </RadListView>
     </GridLayout>
   </StackLayout>
 </template>
@@ -33,6 +46,11 @@ import Vue from "nativescript-vue";
 
 import Tarot from "../mixins/tarot";
 import CardDetails from "./CardDetails";
+import {
+  ListViewItemSnapMode,
+  ListViewScrollDirection
+} from "nativescript-ui-listview";
+// import { ObservableArray } from "tns-core-modules/data/observable-array";
 
 const { mapState, mapGetters } = createNamespacedHelpers("Readings");
 
@@ -60,6 +78,11 @@ export default {
   methods: {
     onTap(tabIdx) {
       this.selectedIdx = tabIdx;
+      this.$refs.listview.scrollToIndex(
+        tabIdx,
+        true,
+        ListViewItemSnapMode.auto
+      );
     },
     onSelectedIdxChanged(args) {
       const prevSelectedIdx = args.oldIndex;
@@ -98,6 +121,27 @@ export default {
           ...this.getCardInstance(newTimestamp)
         }))
       });
+      // this.$refs && this.$refs.listview && this.$refs.listview.refresh();
+    },
+    onPullToRefreshInitiated({ object }) {
+      // console.log("Pulling...");
+      this.loadNewCards();
+      // object.notifyPullToRefreshFinished();
+      // in order to avoid race conditions (only on iOS),
+      // in which the UI may not be completely updated here
+      // we use this.$nextTick call
+      this.$nextTick().then(function() {
+        object.notifyPullToRefreshFinished();
+      });
+    },
+    onScrolled({ scrollOffset }) {
+      // console.log(`scrollOffset ${scrollOffset}`);
+    },
+    onItemTap({ item }) {
+      console.log(`Tapped on ${item.name}`);
+    },
+    onNavigationButtonTap() {
+      Frame.topmost().goBack();
     }
   },
   created() {

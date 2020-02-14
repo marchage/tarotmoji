@@ -2,10 +2,9 @@
 import store from "./store";
 // import VueDevtools from 'nativescript-vue-devtools';
 import Vue from 'nativescript-vue';
-
+import RadListView from 'nativescript-ui-listview/vue';
 
 // https://stackoverflow.com/a/58753786
-
 
 import Home from './components/Home';
 
@@ -17,7 +16,7 @@ Vue.use(VueWindowedModal);
 // Vue.use(VueDevtools);
 // Uncommment the following to see NativeScript-Vue output logs
 Vue.config.silent = true;
-
+Vue.use(RadListView)
 
 new Vue({
     store,

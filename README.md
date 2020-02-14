@@ -48,7 +48,6 @@ hieraan heb ik zelf nog maar toegevoegd
 - [ ] voeg meer info mogelijkheden toe met uitleg of verwijzingen wellicht
 - [ ] maak lastige termen klikbaar
 - [ ] voeg ondersteuning voor chinese toe
-- [ ] 
 
 # ontdekte fouten
 
