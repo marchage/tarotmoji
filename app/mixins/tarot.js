@@ -43,8 +43,8 @@ export default {
             const card = { ...Cards.find(d => d.id === id) };
 
             // set id to [card data id].[instance num] 
-            // @TODO dispatch load from long term storage
-            // @TODO dispatch set to long term storage
+            // @TODO dispatch load id from long term storage
+            // @TODO dispatch set id to long term storage
             // @TODO (maybe) incorporate js big decimal for endless viewing pleasure?
             const instanceIds = this.issuedCardIds.get(card.id) || [];
             const lastIssuedId = instanceIds.pop() || 0.0;

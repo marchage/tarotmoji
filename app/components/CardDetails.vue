@@ -1,53 +1,46 @@
 <template>
   <!-- CardDetails -->
   <GridLayout rows="2*,*,3*,3*" class="card">
-    <!-- name -->
+    <!-- 0: name -->
     <Label row="0" textWrap="true" class="card-title" :text="name" />
-    <!-- reversed -->
-    <StackLayout
-      row="1"
-      style="margin:5"
-      verticalAlignment="top"
-      horizontalAlignment="center"
-      orientation="horizontal"
-    >
+    <!-- 1: reversed: flexbox not stacked, as that doesn't align correctly on iOS -->
+    <FlexboxLayout flexDirection="row" justifyContent="center" row="1" style="margin:5">
       <Label v-if="reversed" class="fa status" text.decode="&#xf021;" />
       <Label v-if="reversed" class="status" text=" REVERSED" />
-    </StackLayout>
-    <!-- emoji -->
+    </FlexboxLayout>
+    <!-- 2A: emoji -->
     <Image row="2" v-if="major" :class="icon" :src="emoji" />
-    <!-- emoji1/2 -->
-    <StackLayout
+    <!-- 2B: emoji1/2 -->
+    <FlexboxLayout
+      flexDirection="row"
+      justifyContent="center"
       row="2"
-      rows="*"
-      columns="*,*"
+      style="margin:5"
       v-if="!major"
-      horizontalAlignment="center"
-      orientation="horizontal"
     >
       <Image style="margin:5" :class="icon" :src="emoji1" />
       <Image style="margin:5" :class="icon" :src="emoji2" />
-    </StackLayout>
-    <!-- meaning -->
+    </FlexboxLayout>
+    <!-- 3: meaning -->
     <Label row="3" class="meaning" textWrap="true" :text="meaning" />
   </GridLayout>
 </template>
 
 <script>
 export default {
-  name: 'CardDetails',
+  name: "CardDetails",
   props: [
-    'name',
-    'reversed',
-    'major',
-    'icon',
-    'emoji',
-    'emoji1',
-    'emoji2',
-    'meaning'
+    "name",
+    "reversed",
+    "major",
+    "icon",
+    "emoji",
+    "emoji1",
+    "emoji2",
+    "meaning"
   ]
 };
 </script>
 
-<style>
+<style scoped>
 </style>
