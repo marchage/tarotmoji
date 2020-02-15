@@ -127,7 +127,7 @@ Some of these are not checked but have indeed been examined and are already half
 ### Discovered Errata
 
 - 72 in stead of [78 cards](https://www.quora.com/How-many-cards-are-in-a-Tarot-deck-Is-there-a-standard-number-of-cards) from which was chosen
-- missing reversed indicator in past present future readings
+- missing reversed indicator in Past/Present/Future layout
 
 ### Features
 
