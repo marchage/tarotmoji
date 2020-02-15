@@ -1,5 +1,5 @@
 /**
- * Automatically imports all the modules and exports as a single module object
+ * webpack: Automatically imports all the modules and exports as a single module object
  */
 const requireModule = require.context('.', false, /\.store\.js$/);
 const modules = {};

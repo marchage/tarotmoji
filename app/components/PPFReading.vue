@@ -129,6 +129,7 @@ Tabs TabStrip {
   text-align: center;
   margin: 0;
   padding: 15;
+  border-radius: 15;
 }
 
 .selected {

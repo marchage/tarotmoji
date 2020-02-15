@@ -22,12 +22,15 @@ const state = initialState('PPF');
 // Getter functions
 const getters = {
     past(state) {
+        if (typeof (state.positions || {}).getItem !== 'function') return;
         return state.type === 'PPF' ? state.positions.getItem(0) : state.positions.getItem(6);
     },
     present(state) {
+        if (typeof (state.positions || {}).getItem !== 'function') return;
         return state.type === 'PPF' ? state.positions.getItem(1) : state.positions.getItem(4);
     },
     future(state) {
+        if (typeof (state.positions || {}).getItem !== 'function') return;
         return state.type === 'PPF' ? state.positions.getItem(2) : state.positions.getItem(10);
     }
 }
