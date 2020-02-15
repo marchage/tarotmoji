@@ -132,7 +132,9 @@ Some of these are not checked but have indeed been examined and are already half
 - Run on 2 major mobile platforms with one code base, "more native" than Ionic.
 - Cards are valid for a period of time, and then updated. Inspecting the readings cards slowly invalidates them (you slide between them between 5 to 11 times and then the reading changes).
 - Card instances are stored to application storage for persistance, and loaded on next startup.
-- Tabs component is not supposed to be `refresh()`-able like RadListItem component. But with the help of `ObservableArray`, and/or removing the v-for loop and accepting some light weight code duplication I was able to achieve that.
+- Tabs component is not supposed to be `refresh()`-able like RadListItem component can be. But with the help of `ObservableArray`, and/or removing the v-for loop and accepting a few lines of code duplication I was able to achieve that.
+- descriptions for Celtic Cross card reading positions are already in place, all that is left is its layout on screen
+
 
 ### Built With
 
