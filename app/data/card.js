@@ -11,5 +11,5 @@ export const entries = new Map([
     ['reversed', false]
 ]);
 
-// all shallow values, otherwise use lodash deepcopy (already included)
+// all shallow values
 export const initCardState = () => Object.fromEntries(entries);

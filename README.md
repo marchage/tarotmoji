@@ -43,7 +43,7 @@
   <p align="center">
     A nicely-designed app that uses emoji to enhance a Tarot card reading.
     <br />
-    <a href="https://github.com/marchage/tarotmoji"><strong>Explore the docs »</strong></a>
+    <a href="https://play.nativescript.org/?template=play-vue&id=zhtusY"><strong>Explore on Playground »</strong></a>
     <br />
     <br />
     <a href="https://github.com/marchage/tarotmoji">View Demo</a>
@@ -79,9 +79,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+An iOS/Android Tarot app, expanded on by yours truly. Or - in other words - putting knowledge into practice by completing extra challenges to a "Tarot-reading w/ emoji"-app making-tutorial.
 
-An iOS/Android Tarot app, expanded on by yours trully. Or - in other words - putting knowledge into practice by completing extra challenges to a "Tarot-reading w/ emoji"-app making-tutorial.
+[![TarotMoji on your device][playground-qr]](https://example.com)
+[![TarotMoji Screen Cast][product-screenshot]](https://nsvue-workshop.netlify.com/docs/1.html)
+
 
 ### Descriptive Quotes
 
@@ -149,9 +151,26 @@ Some of these are not checked but have indeed been examined and are already half
 <!-- GETTING STARTED -->
 ## Getting Started
 
+You can run this app. You have 2 options for running, as far as I can see.
+
+### Online Playground
+
+#### Prerequisites
+
+To run the app from the online NativeScript playground scan the following QR-code with your device. 
+
+#### Installation
+
+Most likely, you will need 2 apps run the app in preview mode: [Playground](https://apps.apple.com/us/app/nativescript-playground/id1263543946?ls=1), but certainly [Preview](https://apps.apple.com/us/app/nativescript-preview/id1264484702). After that scan the following QR-code with the Playground or camera app.
+
+[![scan qr-code][playground-qr]](https://play.nativescript.org/?template=play-vue&id=zhtusY)
+
+
+### Local NativeScript environment
+
 To get a local copy up and running follow these simple steps.
 
-### Prerequisites
+#### Prerequisites
 
 These are exact versions, if you prefer
 * NativeScript 6.3.2
@@ -163,7 +182,7 @@ npm install nativescript@6.3.2 -g
 npm install @vue/cli@4.1.2
 ```
 
-### Installation
+#### Installation
  
 1. Clone the repo
 ```sh
@@ -173,9 +192,7 @@ git clone https://github.com/marchage/tarotmoji.git
 ```sh
 npm install
 ```
-
-<!-- USAGE EXAMPLES -->
-## Usage
+After that your options for running are as follows:
 
 A. Run this repo on iOS and/or Android simulator(s)
 ```sh
@@ -192,7 +209,17 @@ tns run ios --no-hmr
 tns run android --no-hmr
 ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Start the app. Now you have 3 options:
+
+* Card of the Day - view the/a Card of the Day by clicking on the square in the bottom button bar. This card is kept the same for a day (which I translated to "until the end of this hour")
+* Card Explanations - view the explanations of cards by clicking on the list (three lines) icon. Here you can swip up/down + click on any of the [Major Arcana](https://en.wikipedia.org/wiki/Tarot#Tarot_decks_in_occult_usage) cards to view there up or down meaning.
+* My Reading - view the/a past, present, future reading by pressing the third icon on the bottom button bar. Within the latter you start on "Present" but can swipe back to "Past" and forth to "Future". Doing so has a point cost. When there are 0 points left the entire reading is updated with new cards. the reading is also updated when when it expires. I translated this to "until the end of this minute". 
+
+_For more examples, please refer to the [~~Documentation~~](https://example.com) [wikipedia](https://en.wikipedia.org/wiki/Tarot)_
 
 
 
@@ -206,7 +233,7 @@ See the [open issues](https://github.com/marchage/tarotmoji/issues) for a list o
 <!-- CONTRIBUTING -->
 ## Contributing
 
-In that case, perhaps you would like to do the following:
+Are you sure? In that case, perhaps you would like to do the following:
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -260,3 +287,5 @@ Project Link: [https://github.com/marchage/tarotmoji](https://github.com/marchag
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/marc-hage-437794199/
 [product-screenshot]: https://nsvue-workshop.netlify.com/demo-tarotmoji.gif
+[playground-qr]: ./app/assets/playground-qr.png
+[playground-url]: https://play.nativescript.org/?template=play-vue&id=zhtusY
