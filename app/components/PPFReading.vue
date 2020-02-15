@@ -74,9 +74,6 @@ export default {
     onLabelTap(tabIdx) {
       this.selectedIdx = tabIdx;
     },
-    onInfoTap(tabIdx) {
-      this.selectedIdx = tabIdx;
-    },
     onSelectedIdxChanged(args) {
       const prevSelectedIdx = args.oldIndex;
       this.selectedIdx =
