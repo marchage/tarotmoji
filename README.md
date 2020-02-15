@@ -132,9 +132,9 @@ Some of these are not checked but have indeed been examined and are already half
 - Run on 2 major mobile platforms with one code base, "more native" than Ionic.
 - Cards are valid for a period of time, and then updated. Inspecting the readings cards slowly invalidates them (you slide between them between 5 to 11 times and then the reading changes).
 - Card instances are stored to application storage for persistance, and loaded on next startup.
-- Tabs component is not supposed to be `refresh()`-able like RadListItem component can be. But with the help of `ObservableArray`, and/or removing the v-for loop and accepting a few lines of code duplication I was able to achieve that.
+- Tabs component is not supposed to be `refresh()`-able like RadListItem component can be. But with the help of `ObservableArray`, and/or removing the v-for loop and accepting a few lines of code duplication I was able to achieve refreshability of cards.
 - descriptions for Celtic Cross card reading positions are already in place, all that is left is its layout on screen
-
+- times are set really short: 1 day is "to the end of the current hour", and reading cards are only valid "till the end of the currrent minute" so you can easily verify their workings.
 
 ### Built With
 
@@ -185,6 +185,11 @@ tns run android --bundle
 B. QR-code to preview on your own device using native script apps
 ```sh
 tns preview
+```
+C. Run this repo on iOS and/or Android simulators without hot reloading (which sometimes doesn't work)
+```sh
+tns run ios --no-hmr
+tns run android --no-hmr
 ```
 
 _For more examples, please refer to the [Documentation](https://example.com)_

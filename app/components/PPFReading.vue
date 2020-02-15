@@ -3,19 +3,15 @@
     <Label text="My Reading" class="title med" />
     <GridLayout rows="auto,1,*" columns="*" class="card">
       <GridLayout row="0" rows="*" columns="*,*,*">
-        <Label :class="tabClss(0)" text="PAST" @tap="onLabelTap(0)"></Label>
-        <Label :class="tabClss(1)" text="PRESENT" @tap="onLabelTap(1)"></Label>
-        <Label :class="tabClss(2)" text="FUTURE" @tap="onLabelTap(2)"></Label>
+        <Label col="0" :class="tabClss(0)" text="PAST" @tap="onLabelTap(0)"></Label>
+        <Label col="1" :class="tabClss(1)" text="PRESENT" @tap="onLabelTap(1)"></Label>
+        <Label col="2" :class="tabClss(2)" text="FUTURE" @tap="onLabelTap(2)"></Label>
       </GridLayout>
       <StackLayout row="1" backgroundColor="#8089A8" style="opacity: .2"></StackLayout>
       <StackLayout row="2">
         <!-- spelled out (not for-looped), because Tabs cannot refresh -->
         <!-- @see https://www.nativescript.org/blog/tabs-and-bottomnavigation-nativescripts-two-new-components -->
-        <Tabs
-          ref="listview"
-          :selectedIndex="selectedIdx"
-          @selectedIndexChanged="onSelectedIdxChanged"
-        >
+        <Tabs :selectedIndex="selectedIdx" @selectedIndexChanged="onSelectedIdxChanged">
           <TabContentItem>
             <CardDetails v-bind="positions[0]"></CardDetails>
           </TabContentItem>
@@ -111,7 +107,6 @@ export default {
           ...this.getCardInstance(newTimestamp)
         }))
       });
-      // this.$refs && this.$refs.listview && this.$refs.listview.refresh();
     }
   },
   created() {
