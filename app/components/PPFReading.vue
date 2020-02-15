@@ -127,7 +127,8 @@ Tabs TabStrip {
   font-size: 15;
   opacity: 0.5;
   text-align: center;
-  margin: 15;
+  margin: 0;
+  padding: 15;
 }
 
 .selected {
