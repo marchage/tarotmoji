@@ -81,7 +81,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-An iOS/Android Tarot app expanded on by me. Or - in other words - putting knowledge into practice by completing extra challenges to a "Tarot-reading w/ emoji"-app making-tutorial.
+An iOS/Android Tarot app, expanded on by yours trully. Or - in other words - putting knowledge into practice by completing extra challenges to a "Tarot-reading w/ emoji"-app making-tutorial.
 
 ### Descriptive Quotes
 
@@ -140,8 +140,8 @@ Some of these are not checked but have indeed been examined and are already half
 * [Vue.js](https://vuejs.org/)
 * [NativeScript-Vue](https://nativescript-vue.org/)
 * [NativeScript Playground](https://play.nativescript.org/)
-* [VSCode]()
-* [-ext:NativeScript](https://github.com/NativeScript/nativescript-vscode-extension)
+* [VSCode](https://code.visualstudio.com/)
+* [ext:NativeScript](https://github.com/NativeScript/nativescript-vscode-extension)
 
 
 <!-- GETTING STARTED -->
@@ -151,7 +151,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-These are my exact versions, if you prefere
+These are exact versions, if you prefer
 * NativeScript 6.3.2
 ```sh
 npm install nativescript@6.3.2 -g
