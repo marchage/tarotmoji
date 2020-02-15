@@ -27,7 +27,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linked-in-shield]][linked-in-url]
 
 
 
@@ -108,19 +108,19 @@ Perhaps simply quoting from the initial source is best.
 > - [ ] Move the Tarot data into a GraphQL database, or port it elsewhere and make API calls against it
 > - [x] Change the One Card page to change only when the date changes so that it's a true "Daily Reading". More cool: save the date in Application Settings and test against that
 > - [x] Find a way to store cards and retrieve them.
-> - [ ] Find a way for a Querant to make notes about various readings and their dates
+> - [ ] Find a way for a Querent to make notes about various readings and their dates
 
 ### Own Additions
 
-To this list I have added the following, some in Dutch:
+To this list I have added the following:
 
-- [x] incorporate more animation and/or use standard components
+- [x] standards & animations: incorporate more animation and/or use standard native script ui components
 - [x] moduled store
-- [x] maak de tarot werking realistischer door een maximum aantal keer kijken toetestaan voor deze ongeldig wordt en wordt verwijderd
-- [x] goede tijds ondersteuning (maar minder groot dan moment.js) 
-- [ ] voeg meer info mogelijkheden toe met uitleg of verwijzingen wellicht
-- [ ] maak lastige termen klikbaar
-- [ ] voeg ondersteuning voor Chinees toe
+- [x] looking at it, breaks it: make reading more tarot-like by allowing a maximum number of views or inspections of the card reading elements before the drawn cards get invalidated (=change).
+- [x] air-travel supported: good time and timezone support, while not immediately incorporating moment.js (because of its size for example). 
+- [ ] help-indicators: add more info possibilities with explanation, or references perhaps
+- [ ] dictionary: make "difficult" term clickable
+- [ ] i18n: add Chinese language support
 
 Some of these are not checked but have indeed been examined and are already half-way finished.
 
@@ -133,10 +133,10 @@ Some of these are not checked but have indeed been examined and are already half
 
 - Run on 2 major mobile platforms with one code base, "more native" than Ionic.
 - Cards are valid for a period of time, and then updated. Inspecting the readings cards slowly invalidates them (you slide between them between 5 to 11 times and then the reading changes).
-- Card instances are stored to application storage for persistance, and loaded on next startup.
-- Tabs component is not supposed to be `refresh()`-able like RadListItem component can be. But with the help of `ObservableArray`, and/or removing the v-for loop and accepting a few lines of code duplication I was able to achieve refreshability of cards.
+- Card instances are stored to application storage for persistence, and loaded on next startup.
+- Tabs component is not supposed to be `refresh()`-able like RadListItem component can be. But with the help of `ObservableArray`, and/or removing the v-for loop and accepting a few lines of code duplication I was able to achieve refresh-like behavior of cards drawn.
 - descriptions for Celtic Cross card reading positions are already in place, all that is left is its layout on screen
-- times are set really short: 1 day is "to the end of the current hour", and reading cards are only valid "till the end of the currrent minute" so you can easily verify their workings.
+- times are set really short: 1 day is "to the end of the current hour", and reading cards are only valid "till the end of the current minute" so you can easily verify their workings.
 
 ### Built With
 
@@ -216,7 +216,7 @@ tns run android --no-hmr
 Start the app. Now you have 3 options:
 
 * Card of the Day - view the/a Card of the Day by clicking on the square in the bottom button bar. This card is kept the same for a day (which I translated to "until the end of this hour")
-* Card Explanations - view the explanations of cards by clicking on the list (three lines) icon. Here you can swip up/down + click on any of the [Major Arcana](https://en.wikipedia.org/wiki/Tarot#Tarot_decks_in_occult_usage) cards to view there up or down meaning.
+* Card Explanations - view the explanations of cards by clicking on the list (three lines) icon. Here you can swipe up/down + click on any of the [Major Arcana](https://en.wikipedia.org/wiki/Tarot#Tarot_decks_in_occult_usage) cards to view there up or down meaning.
 * My Reading - view the/a past, present, future reading by pressing the third icon on the bottom button bar. Within the latter you start on "Present" but can swipe back to "Past" and forth to "Future". Doing so has a point cost. When there are 0 points left the entire reading is updated with new cards. the reading is also updated when when it expires. I translated this to "until the end of this minute". 
 
 _For more examples, please refer to the [~~Documentation~~](https://example.com) [wikipedia](https://en.wikipedia.org/wiki/Tarot)_
@@ -262,7 +262,7 @@ Project Link: [https://github.com/marchage/tarotmoji](https://github.com/marchag
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [nsvue-workshop](https://nsvue-workshop.netlify.com/)
+* [ns-vue-workshop](https://nsvue-workshop.netlify.com/)
 * [NativeScript-Vue](https://nativescript-vue.org/)
 * [NativeScript](https://www.nativescript.org/)
 * [Vue.js](https://vuejs.org/)
@@ -284,8 +284,8 @@ Project Link: [https://github.com/marchage/tarotmoji](https://github.com/marchag
 [issues-url]: https://github.com/marchage/tarotmoji/issues
 [license-shield]: https://img.shields.io/github/license/marchage/tarotmoji.svg?style=flat-square
 [license-url]: https://github.com/marchage/tarotmoji/blob/master/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/marc-hage-437794199/
+[linked-in-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
+[linked-in-url]: https://www.linkedin.com/in/marc-hage-437794199/
 [product-screenshot]: https://nsvue-workshop.netlify.com/demo-tarotmoji.gif
 [playground-qr]: ./app/assets/playground-qr.png
 [playground-url]: https://play.nativescript.org/?template=play-vue&id=zhtusY
