@@ -59,25 +59,35 @@
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Descriptive Quotes](#descriptive-qoutes)
-  * [Own Additions](#own-additions)
-  * [Discovered Errata](#discovered-errata)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+  - [Descriptive Quotes](#descriptive-quotes)
+    - [Originally, a work by Jen Looper and Lester Gonzales:](#originally-a-work-by-jen-looper-and-lester-gonzales)
+    - [Its list of extra challenges:](#its-list-of-extra-challenges)
+  - [Own Additions](#own-additions)
+  - [Discovered Errata](#discovered-errata)
+  - [Features](#features)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Online Playground](#online-playground)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Local NativeScript environment](#local-nativescript-environment)
+    - [Prerequisites](#prerequisites-1)
+    - [Installation](#installation-1)
+- [Usage](#usage)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
+> ⚠ Important note: The packages, which you normally install into a local `node_modules/` folder, are explicitly included here - in the source & version control - in order to keep the whole project inline with the export facilities of the NativeScript Playground, and compatible as much as possible with the NativeScript playground for re-importing it again. I badly explained. Keep it compatible, do it the way they do it.
 
 An iOS/Android Tarot app, expanded on by yours truly. Or - in other words - putting knowledge into practice by completing extra challenges to a "Tarot-reading w/ emoji"-app making-tutorial.
 
